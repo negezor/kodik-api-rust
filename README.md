@@ -1,7 +1,7 @@
 # Kodik Rust
 
-<a href="https://crates.io/crates/kodik"><img src="https://img.shields.io/crates/v/kodik.svg?style=flat-square" alt="Crate version"></a>
-<a href="https://github.com/negezor/kodik-rust/actions/workflows/main.yml"><img src="https://img.shields.io/github/actions/workflow/Tests/negezor/kodik-rust/main.yml?style=flat-square" alt="Build Status"></a>
+<a href="https://crates.io/crates/kodik"><img src="https://img.shields.io/crates/v/kodik?style=flat-square&logo=rust" alt="Crate version"></a>
+<a href="https://github.com/negezor/kodik-rust/actions/workflows/main.yml"><img src="https://img.shields.io/github/actions/workflow/status/negezor/kodik-rust/main.yml?style=flat-square&logo=github&label=Tests" alt="Tests"></a>
 <a href="https://github.com/negezor/kodik-rust/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-informational?style=flat-square" alt="License"></a>
 
 > **Kodik Rust** - An efficient Rust library serving as a wrapper for the Kodik API 🦾
