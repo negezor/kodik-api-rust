@@ -2,6 +2,10 @@
 name = "kodik"
 version = "0.1.0"
 edition = "2021"
+authors = ["Negezor <negezor@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/negezor/kodik-rust"
 
 [features]
 default = ["rustls-tls"]
