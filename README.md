@@ -1,33 +1,33 @@
 # Kodik Rust
 
-<a href="https://crates.io/crates/kodik"><img src="https://img.shields.io/crates/v/kodik?style=flat-square&logo=rust" alt="Crate version"></a>
-<a href="https://github.com/negezor/kodik-rust/actions/workflows/main.yml"><img src="https://img.shields.io/github/actions/workflow/status/negezor/kodik-rust/main.yml?style=flat-square&logo=github&label=Tests" alt="Tests"></a>
-<a href="https://github.com/negezor/kodik-rust/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-informational?style=flat-square" alt="License"></a>
+<a href="https://crates.io/crates/kodik-api"><img src="https://img.shields.io/crates/v/kodik-api?style=flat-square&logo=rust" alt="Crate version"></a>
+<a href="https://github.com/negezor/kodik-api-rust/actions/workflows/main.yml"><img src="https://img.shields.io/github/actions/workflow/status/negezor/kodik-api-rust/main.yml?style=flat-square&logo=github&label=Tests" alt="Tests"></a>
+<a href="https://github.com/negezor/kodik-api-rust/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-informational?style=flat-square" alt="License"></a>
 
 > **Kodik Rust** - An efficient Rust library serving as a wrapper for the Kodik API 🦾
 
-| 📖 [Documentation](https://docs.rs/kodik)  |
+| 📖 [Documentation](https://docs.rs/kodik-api)  |
 | ------------------------------------------ |
 
 ## Installation
 
-Install [kodik from crates.io](https://crates.io/crates/kodik). Add the following line to your `Cargo.toml` file's dependencies section:
+Install [kodik from crates.io](https://crates.io/crates/kodik-api). Add the following line to your `Cargo.toml` file's dependencies section:
 
 ```toml
-kodik = "0.1.0"
+kodik-api = "0.1.0"
 ```
 
 Or you can add with cargo
 
 ```sh
-cargo add kodik
+cargo add kodik-api
 ```
 
 ## Usage
 
 ```rs
-use kodik::Client;
-use kodik::search::SearchQuery;
+use kodik_api::Client;
+use kodik_api::search::SearchQuery;
 
 #[tokio::main]
 async fn main() {
@@ -114,9 +114,9 @@ async fn main() {
 ```rs
 use futures::{pin_mut, StreamExt};
 
-use kodik::Client;
-use kodik::list::ListQuery;
-use kodik::types::ReleaseType;
+use kodik_api::Client;
+use kodik_api::list::ListQuery;
+use kodik_api::types::ReleaseType;
 
 #[tokio::main]
 async fn main() {
@@ -141,11 +141,11 @@ async fn main() {
             Err(err) => {
                 match err {
                     // Kodik error
-                    kodik::error::Error::KodikError(message) => {
+                    kodik_api::error::Error::KodikError(message) => {
                         panic!("kodik error = {}", message);
                     }
                     // Reqwest error
-                    kodik::error::Error::HttpError(_err) => {
+                    kodik_api::error::Error::HttpError(_err) => {
                         // Another try
                         continue;
                     }

@@ -3,8 +3,8 @@
 //! ### Search Releases
 //!
 //! ```
-//! use kodik::Client;
-//! use kodik::search::SearchQuery;
+//! use kodik_api::Client;
+//! use kodik_api::search::SearchQuery;
 //!
 //! #[tokio::main]
 //! async fn main() {
@@ -28,9 +28,9 @@
 //! ```
 //! use futures::{pin_mut, StreamExt};
 //!
-//! use kodik::Client;
-//! use kodik::list::ListQuery;
-//! use kodik::types::ReleaseType;
+//! use kodik_api::Client;
+//! use kodik_api::list::ListQuery;
+//! use kodik_api::types::ReleaseType;
 //!
 //! #[tokio::main]
 //! async fn main() {
@@ -54,11 +54,11 @@
 //!             Err(err) => {
 //!                 match err {
 //!                     // Kodik error
-//!                     kodik::error::Error::KodikError(message) => {
+//!                     kodik_api::error::Error::KodikError(message) => {
 //!                         panic!("kodik error = {}", message);
 //!                     }
 //!                     // Reqwest error
-//!                     kodik::error::Error::HttpError(_err) => {
+//!                     kodik_api::error::Error::HttpError(_err) => {
 //!                         // Another try
 //!                         continue;
 //!                     }
@@ -75,8 +75,8 @@
 //! ### List Translations
 //!
 //! ```
-//! use kodik::Client;
-//! use kodik::translations::TranslationQuery;
+//! use kodik_api::Client;
+//! use kodik_api::translations::TranslationQuery;
 //!
 //! #[tokio::main]
 //! async fn main() {
@@ -96,8 +96,8 @@
 //! ### List Genres
 //!
 //! ```
-//! use kodik::Client;
-//! use kodik::genres::GenreQuery;
+//! use kodik_api::Client;
+//! use kodik_api::genres::GenreQuery;
 //!
 //! #[tokio::main]
 //! async fn main() {
@@ -117,8 +117,8 @@
 //! ### List Countries
 //!
 //! ```
-//! use kodik::Client;
-//! use kodik::countries::CountryQuery;
+//! use kodik_api::Client;
+//! use kodik_api::countries::CountryQuery;
 //!
 //! #[tokio::main]
 //! async fn main() {
@@ -138,8 +138,8 @@
 //! ### List Years
 //!
 //! ```
-//! use kodik::Client;
-//! use kodik::years::YearQuery;
+//! use kodik_api::Client;
+//! use kodik_api::years::YearQuery;
 //!
 //! #[tokio::main]
 //! async fn main() {
@@ -159,8 +159,8 @@
 //! ### List Qualities
 //!
 //! ```
-//! use kodik::Client;
-//! use kodik::qualities::QualityQuery;
+//! use kodik_api::Client;
+//! use kodik_api::qualities::QualityQuery;
 //!
 //! #[tokio::main]
 //! async fn main() {

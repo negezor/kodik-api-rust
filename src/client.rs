@@ -13,7 +13,7 @@ impl Client {
     /// # Example
     ///
     /// ```
-    /// # use kodik::Client;
+    /// # use kodik_api::Client;
     ///
     /// let api_key = std::env::var("KODIK_API_KEY").expect("KODIK_API_KEY is not set");
     ///

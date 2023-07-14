@@ -1,12 +1,12 @@
 [package]
-name = "kodik"
+name = "kodik-api"
 version = "0.1.0"
 edition = "2021"
 description = "An unofficial async Rust library that allows you to interact with the Kodik API"
 authors = ["Negezor <negezor@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-repository = "https://github.com/negezor/kodik-rust"
+repository = "https://github.com/negezor/kodik-api-rust"
 keywords = ["kodik", "api", "sdk", "wrapper", "async"]
 categories = ["api-bindings"]
 
