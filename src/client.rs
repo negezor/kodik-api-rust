@@ -4,6 +4,7 @@ use reqwest::{Client as ReqwestClient, RequestBuilder};
 #[derive(Debug, Clone)]
 pub struct Client {
     api_key: String,
+    api_url: String,
     http_client: ReqwestClient,
 }
 
@@ -22,6 +23,8 @@ impl Client {
     pub fn new(api_key: impl Into<String>) -> Client {
         Client {
             api_key: api_key.into(),
+            // TODO: Add client builder for api url
+            api_url: "https://kodikapi.com".to_owned(),
             http_client: ReqwestClient::builder()
                 // TODO: Add client builder for proxy
                 .build()
@@ -29,9 +32,9 @@ impl Client {
         }
     }
 
-    pub(crate) fn init_post_request(&self, url: &str) -> RequestBuilder {
+    pub(crate) fn init_post_request(&self, path: &str) -> RequestBuilder {
         self.http_client
-            .post(url)
+            .post(self.api_url.clone() + path)
             .query(&[("token", &self.api_key)])
     }
 }

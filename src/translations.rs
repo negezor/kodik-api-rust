@@ -1,7 +1,6 @@
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    constants::BASE_URL,
     error::Error,
     types::{
         AllStatus, AnimeKind, AnimeStatus, DramaStatus, MppaRating, ReleaseType, TranslationType,
@@ -437,7 +436,7 @@ impl<'a> TranslationQuery<'a> {
             comma_serde_urlencoded::to_string(self).map_err(Error::UrlencodedSerializeError)?;
 
         let response = client
-            .init_post_request(&format!("{BASE_URL}/translations/v2"))
+            .init_post_request("/translations/v2")
             .body(body)
             .send()
             .await

@@ -1,7 +1,6 @@
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    constants::BASE_URL,
     error::Error,
     types::{
         AllStatus, AnimeKind, AnimeStatus, DramaStatus, MppaRating, Release, ReleaseType,
@@ -726,7 +725,7 @@ impl<'a> SearchQuery<'a> {
             comma_serde_urlencoded::to_string(self).map_err(Error::UrlencodedSerializeError)?;
 
         let response = client
-            .init_post_request(&format!("{BASE_URL}/search"))
+            .init_post_request("/search")
             .body(body)
             .send()
             .await

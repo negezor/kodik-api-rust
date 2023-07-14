@@ -2,7 +2,7 @@ use std::marker::PhantomData;
 
 use serde::{Deserialize, Serialize};
 
-use crate::{constants::BASE_URL, error::Error, Client};
+use crate::{error::Error, Client};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct QualityResult {
@@ -40,7 +40,7 @@ impl<'a> QualityQuery<'a> {
             comma_serde_urlencoded::to_string(self).map_err(Error::UrlencodedSerializeError)?;
 
         let response = client
-            .init_post_request(&format!("{BASE_URL}/qualities"))
+            .init_post_request("/qualities")
             .body(body)
             .send()
             .await

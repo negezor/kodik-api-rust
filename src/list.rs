@@ -3,7 +3,6 @@ use futures::{pin_mut, Stream, StreamExt};
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    constants::BASE_URL,
     error::Error,
     types::{
         AllStatus, AnimeKind, AnimeStatus, DramaStatus, MppaRating, Release, ReleaseType,
@@ -570,9 +569,7 @@ impl<'a> ListQuery<'a> {
                 let request_builder = if let Some(url) = &next_page {
                     client.init_post_request(url)
                 } else {
-                    client
-                        .init_post_request(&format!("{BASE_URL}/list"))
-                        .body(body.clone())
+                    client.init_post_request("/list").body(body.clone())
                 };
 
                 let response = request_builder.send().await.map_err(Error::HttpError)?;

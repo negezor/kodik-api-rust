@@ -210,6 +210,4 @@ pub mod types;
 /// The module contains structures for unifying the API seasons response.
 pub mod unify_seasons;
 
-mod constants;
-
 pub use client::*;
