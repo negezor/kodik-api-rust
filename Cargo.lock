@@ -455,7 +455,7 @@ dependencies = [
 
 [[package]]
 name = "kodik-api"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "async-fn-stream",
  "comma_serde_urlencoded",
