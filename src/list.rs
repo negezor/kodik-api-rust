@@ -309,7 +309,7 @@ impl<'a> ListQuery<'a> {
     }
 
     /// If you specify true, the seasons of the series will also be listed in the seasons field. This and the following parameter are made to avoid overloading the output with a huge amount of information about seasons and episodes, if this information is not needed for parsing
-    pub fn with_with_seasons<'b>(&'b mut self, with_seasons: bool) -> &'b mut ListQuery<'a> {
+    pub fn with_seasons<'b>(&'b mut self, with_seasons: bool) -> &'b mut ListQuery<'a> {
         self.with_seasons = Some(with_seasons);
         self
     }
@@ -321,12 +321,12 @@ impl<'a> ListQuery<'a> {
     }
 
     /// If you specify true, the seasons field will be added to each series (even if with_seasons is not specified or specified as false) and the episodes field with the episodes of that season will be added to each season. If the with_episodes parameter is used, the series numbers will correspond to the normal series references. If you use the with_episodes_data parameter, episode objects will be assigned to the episode numbers, where the link will be available via the link parameter, the episode name (if any) via the title parameter, and the frames via screenshots
-    pub fn with_with_episodes<'b>(&'b mut self, with_episodes: bool) -> &'b mut ListQuery<'a> {
+    pub fn with_episodes<'b>(&'b mut self, with_episodes: bool) -> &'b mut ListQuery<'a> {
         self.with_episodes = Some(with_episodes);
         self
     }
     /// If you specify true, the seasons field will be added to each series (even if with_seasons is not specified or specified as false) and the episodes field with the episodes of that season will be added to each season. If the with_episodes parameter is used, the series numbers will correspond to the normal series references. If you use the with_episodes_data parameter, episode objects will be assigned to the episode numbers, where the link will be available via the link parameter, the episode name (if any) via the title parameter, and the frames via screenshots
-    pub fn with_with_episodes_data<'b>(
+    pub fn with_episodes_data<'b>(
         &'b mut self,
         with_episodes_data: bool,
     ) -> &'b mut ListQuery<'a> {
@@ -335,7 +335,7 @@ impl<'a> ListQuery<'a> {
     }
 
     /// If you specify true, all links to players will be replaced by special links to pages with players (suitable for cases when you don't have your own site). You can customize appearance of these pages in settings in the base. If parameter with_seasons or with_episodes / with_episodes_data is specified together with this parameter, links in seasons and episodes will also be replaced
-    pub fn with_with_page_links<'b>(&'b mut self, with_page_links: bool) -> &'b mut ListQuery<'a> {
+    pub fn with_page_links<'b>(&'b mut self, with_page_links: bool) -> &'b mut ListQuery<'a> {
         self.with_page_links = Some(with_page_links);
         self
     }
@@ -357,7 +357,7 @@ impl<'a> ListQuery<'a> {
         self
     }
     /// If you specify true, the material_data field will be added to each movie/series with information from Kinopoisk and Shikimori
-    pub fn with_with_material_data<'b>(
+    pub fn with_material_data<'b>(
         &'b mut self,
         with_material_data: bool,
     ) -> &'b mut ListQuery<'a> {
