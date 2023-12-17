@@ -201,6 +201,7 @@ pub struct Season {
 
 /// Represents a release episode on Kodik
 #[derive(Serialize, Deserialize, Debug, Clone)]
+#[serde(untagged)]
 pub enum EpisodeUnion {
     /// `"http://kodik.cc/seria/119611/09249413a7eb3c03b15df57cd56a051b/720p"`
     Link(String),
