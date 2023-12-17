@@ -267,6 +267,18 @@ impl<'a> ListQuery<'a> {
         self
     }
 
+    /// What field to sort materials by
+    pub fn with_sort<'b>(&'b mut self, sort: ListSort) -> &'b mut ListQuery<'a> {
+        self.sort = Some(sort);
+        self
+    }
+
+    /// Sorting direction
+    pub fn with_order<'b>(&'b mut self, order: ListOrder) -> &'b mut ListQuery<'a> {
+        self.order = Some(order);
+        self
+    }
+
     /// Maximum number of outputs
     pub fn with_types<'b>(&'b mut self, types: &'a [ReleaseType]) -> &'b mut ListQuery<'a> {
         self.types = Some(types);
