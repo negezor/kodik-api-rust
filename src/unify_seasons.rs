@@ -32,19 +32,21 @@ pub struct UnifiedSeason {
 /// Kodik returns different response formats for movies, shows, depending on the parameters and the state of the sun.
 pub fn unify_seasons(release: &Release) -> HashMap<String, UnifiedSeason> {
     let Some(kodik_seasons) = &release.seasons else {
-        return HashMap::from([
-            ("1".to_owned(), UnifiedSeason {
+        return HashMap::from([(
+            "1".to_owned(),
+            UnifiedSeason {
                 title: None,
                 link: release.link.clone(),
-                episodes: HashMap::from([
-                    ("1".to_owned(), UnifiedEpisode {
+                episodes: HashMap::from([(
+                    "1".to_owned(),
+                    UnifiedEpisode {
                         title: None,
                         link: release.link.clone(),
                         screenshots: release.screenshots.clone(),
-                    })
-                ]),
-            })
-        ]);
+                    },
+                )]),
+            },
+        )]);
     };
 
     let mut seasons = HashMap::new();

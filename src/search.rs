@@ -495,10 +495,7 @@ impl<'a> SearchQuery<'a> {
     }
 
     /// If you specify true, all links to players will be replaced by special links to pages with players (suitable for cases when you don't have your own site). You can customize appearance of these pages in settings in the base. If parameter with_seasons or with_episodes / with_episodes_data is specified together with this parameter, links in seasons and episodes will also be replaced
-    pub fn with_page_links<'b>(
-        &'b mut self,
-        with_page_links: bool,
-    ) -> &'b mut SearchQuery<'a> {
+    pub fn with_page_links<'b>(&'b mut self, with_page_links: bool) -> &'b mut SearchQuery<'a> {
         self.with_page_links = Some(with_page_links);
         self
     }

@@ -338,10 +338,7 @@ impl<'a> ListQuery<'a> {
         self
     }
     /// If you specify true, the seasons field will be added to each series (even if with_seasons is not specified or specified as false) and the episodes field with the episodes of that season will be added to each season. If the with_episodes parameter is used, the series numbers will correspond to the normal series references. If you use the with_episodes_data parameter, episode objects will be assigned to the episode numbers, where the link will be available via the link parameter, the episode name (if any) via the title parameter, and the frames via screenshots
-    pub fn with_episodes_data<'b>(
-        &'b mut self,
-        with_episodes_data: bool,
-    ) -> &'b mut ListQuery<'a> {
+    pub fn with_episodes_data<'b>(&'b mut self, with_episodes_data: bool) -> &'b mut ListQuery<'a> {
         self.with_episodes_data = Some(with_episodes_data);
         self
     }
@@ -369,10 +366,7 @@ impl<'a> ListQuery<'a> {
         self
     }
     /// If you specify true, the material_data field will be added to each movie/series with information from Kinopoisk and Shikimori
-    pub fn with_material_data<'b>(
-        &'b mut self,
-        with_material_data: bool,
-    ) -> &'b mut ListQuery<'a> {
+    pub fn with_material_data<'b>(&'b mut self, with_material_data: bool) -> &'b mut ListQuery<'a> {
         self.with_material_data = Some(with_material_data);
         self
     }
