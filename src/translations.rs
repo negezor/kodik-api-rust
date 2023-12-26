@@ -125,7 +125,7 @@ pub struct TranslationQuery<'a> {
 
     /// Filtering materials by age rating. You can specify a single value or multiple values, separated by commas. The parameter is case-insensitive
     #[serde(skip_serializing_if = "Option::is_none")]
-    mpaa_rating: Option<&'a [MppaRating]>,
+    rating_mpaa: Option<&'a [MppaRating]>,
 
     /// Filter content by the minimum age from which it can be viewed. You can specify either a single value or a range of values
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -182,7 +182,7 @@ impl<'a> TranslationQuery<'a> {
             editors: None,
             designers: None,
             operators: None,
-            mpaa_rating: None,
+            rating_mpaa: None,
             minimal_age: None,
             anime_kind: None,
             mydramalist_tags: None,
@@ -354,11 +354,11 @@ impl<'a> TranslationQuery<'a> {
     }
 
     /// Filtering materials by age rating. You can specify a single value or multiple values, separated by commas. The parameter is case-insensitive
-    pub fn with_mpaa_rating<'b>(
+    pub fn with_rating_mpaa<'b>(
         &'b mut self,
-        mpaa_rating: &'a [MppaRating],
+        rating_mpaa: &'a [MppaRating],
     ) -> &'b mut TranslationQuery<'a> {
-        self.mpaa_rating = Some(mpaa_rating);
+        self.rating_mpaa = Some(rating_mpaa);
         self
     }
 
