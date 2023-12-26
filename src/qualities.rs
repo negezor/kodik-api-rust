@@ -1,6 +1,14 @@
 use serde::{Deserialize, Serialize};
 
-use crate::{error::Error, util::serialize_into_query_parts, Client, types::{ReleaseType, TranslationType, AnimeKind, AnimeStatus, DramaStatus, AllStatus, MppaRating}};
+use crate::{
+    error::Error,
+    types::{
+        AllStatus, AnimeKind, AnimeStatus, DramaStatus, MaterialDataField, MppaRating, ReleaseType,
+        TranslationType,
+    },
+    util::serialize_into_query_parts,
+    Client,
+};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct QualityResult {
@@ -37,7 +45,7 @@ pub struct QualityQuery<'a> {
     /// What field to sort materials by
     #[serde(skip_serializing_if = "Option::is_none")]
     sort: Option<QualitySort>,
-    
+
     /// Filtering materials by their type. For your convenience, a large number of types of films and TV series are available. Required types are specified separated by commas
     #[serde(skip_serializing_if = "Option::is_none")]
     types: Option<&'a [ReleaseType]>,
@@ -53,10 +61,17 @@ pub struct QualityQuery<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     translation_type: Option<&'a [TranslationType]>,
 
+    /// Filtering materials based on the presence of a specific field. Materials that have at least one of the listed fields are shown. In order to show only materials that have all the listed fields
+    #[serde(skip_serializing_if = "Option::is_none")]
+    has_field: Option<&'a [MaterialDataField]>,
+    /// Filtering materials based on the presence of a specific field. Materials that have all the listed fields are shown
+    #[serde(skip_serializing_if = "Option::is_none")]
+    has_field_and: Option<&'a [MaterialDataField]>,
+
     /// Filters materials by the lgbt parameter. If you specify false, only materials that do not contain LGBT scenes will be output. If you don't specify this parameter, all materials will be displayed
     #[serde(skip_serializing_if = "Option::is_none")]
     lgbt: Option<bool>,
-    
+
     /// Filtering materials by country. You can specify a single value or multiple values, separated by commas (then materials with at least one of the listed countries will be displayed). The parameter is case sensitive
     #[serde(skip_serializing_if = "Option::is_none")]
     countries: Option<&'a [&'a str]>,
@@ -73,7 +88,7 @@ pub struct QualityQuery<'a> {
     /// Filtering by genre. You can specify either one value or several values separated by commas (then materials that have at least one of the specified genres will be displayed). You can search by Kinopoisk, Shikimori, MyDramaList or by all genres at once. The parameter is not case sensitive
     #[serde(skip_serializing_if = "Option::is_none")]
     all_genres: Option<&'a [&'a str]>,
-    
+
     /// Filtering by duration (in minutes). You can specify either a single value to search for the exact duration, or an interval.
     #[serde(skip_serializing_if = "Option::is_none")]
     duration: Option<&'a [&'a str]>,
@@ -91,7 +106,6 @@ pub struct QualityQuery<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     mydramalist_rating: Option<&'a [&'a str]>,
 
-    
     /// Filtering materials by personas. You can specify a single value or multiple values, separated by commas (then materials that have at least one of the specified personas will be displayed). This parameter is case-independent. You can specify filters for several professions at once
     #[serde(skip_serializing_if = "Option::is_none")]
     actors: Option<&'a [&'a str]>,
@@ -116,16 +130,15 @@ pub struct QualityQuery<'a> {
     /// Filtering materials by personas. You can specify a single value or multiple values, separated by commas (then materials that have at least one of the specified personas will be displayed). This parameter is case-independent. You can specify filters for several professions at once
     #[serde(skip_serializing_if = "Option::is_none")]
     operators: Option<&'a [&'a str]>,
-    
+
     /// Filtering materials by age rating. You can specify a single value or multiple values, separated by commas. The parameter is case-insensitive
     #[serde(skip_serializing_if = "Option::is_none")]
     rating_mpaa: Option<&'a [MppaRating]>,
-    
+
     /// Filter content by the minimum age from which it can be viewed. You can specify either a single value or a range of values
     #[serde(skip_serializing_if = "Option::is_none")]
     minimal_age: Option<&'a [&'a str]>,
 
-    
     /// Filtering materials by anime type. You can specify one value or several values separated by commas (then materials with at least one of these types will be displayed)
     #[serde(skip_serializing_if = "Option::is_none")]
     anime_kind: Option<&'a [AnimeKind]>,
@@ -134,7 +147,6 @@ pub struct QualityQuery<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     mydramalist_tags: Option<&'a [&'a str]>,
 
-    
     /// Filter materials by Shikimori status, MyDramaList, or by all statuses. You can specify a single value or several values separated by commas (then materials that have at least one of the listed statuses will be displayed)
     #[serde(skip_serializing_if = "Option::is_none")]
     anime_status: Option<&'a [AnimeStatus]>,
@@ -161,6 +173,8 @@ impl<'a> QualityQuery<'a> {
             year: None,
             translation_id: None,
             translation_type: None,
+            has_field: None,
+            has_field_and: None,
             lgbt: None,
             countries: None,
             genres: None,
@@ -228,6 +242,23 @@ impl<'a> QualityQuery<'a> {
         self
     }
 
+    /// Filtering materials based on the presence of a specific field. Materials that have at least one of the listed fields are shown. In order to show only materials that have all the listed fields
+    pub fn with_has_field<'b>(
+        &'b mut self,
+        has_field: &'a [MaterialDataField],
+    ) -> &'b mut QualityQuery<'a> {
+        self.has_field = Some(has_field);
+        self
+    }
+    /// Filtering materials based on the presence of a specific field. Materials that have all the listed fields are shown
+    pub fn with_has_field_and<'b>(
+        &'b mut self,
+        has_field: &'a [MaterialDataField],
+    ) -> &'b mut QualityQuery<'a> {
+        self.has_field_and = Some(has_field);
+        self
+    }
+
     /// Filters materials by the lgbt parameter. If you specify false, only materials that do not contain LGBT scenes will be output. If you don't specify this parameter, all materials will be displayed
     pub fn with_lgbt<'b>(&'b mut self, lgbt: bool) -> &'b mut QualityQuery<'a> {
         self.lgbt = Some(lgbt);
@@ -240,7 +271,6 @@ impl<'a> QualityQuery<'a> {
         self
     }
 
-    
     /// Filtering by genre. You can specify either one value or several values separated by commas (then materials that have at least one of the specified genres will be displayed). You can search by Kinopoisk, Shikimori, MyDramaList or by all genres at once. The parameter is not case sensitive
     pub fn with_genres<'b>(&'b mut self, genres: &'a [&'a str]) -> &'b mut QualityQuery<'a> {
         self.genres = Some(genres);
@@ -263,7 +293,10 @@ impl<'a> QualityQuery<'a> {
         self
     }
     /// Filtering by genre. You can specify either one value or several values separated by commas (then materials that have at least one of the specified genres will be displayed). You can search by Kinopoisk, Shikimori, MyDramaList or by all genres at once. The parameter is not case sensitive
-    pub fn with_all_genres<'b>(&'b mut self, all_genres: &'a [&'a str]) -> &'b mut QualityQuery<'a> {
+    pub fn with_all_genres<'b>(
+        &'b mut self,
+        all_genres: &'a [&'a str],
+    ) -> &'b mut QualityQuery<'a> {
         self.all_genres = Some(all_genres);
         self
     }
@@ -274,7 +307,6 @@ impl<'a> QualityQuery<'a> {
         self
     }
 
-    
     /// Filtering by Kinopoisk, IMDb, Shikimori, or MyDramaList ratings. You can specify either a single value to search for the exact rating, or an interval
     pub fn with_kinopoisk_rating<'b>(
         &'b mut self,
@@ -284,7 +316,10 @@ impl<'a> QualityQuery<'a> {
         self
     }
     /// Filtering by Kinopoisk, IMDb, Shikimori, or MyDramaList ratings. You can specify either a single value to search for the exact rating, or an interval
-    pub fn with_imdb_rating<'b>(&'b mut self, imdb_rating: &'a [&'a str]) -> &'b mut QualityQuery<'a> {
+    pub fn with_imdb_rating<'b>(
+        &'b mut self,
+        imdb_rating: &'a [&'a str],
+    ) -> &'b mut QualityQuery<'a> {
         self.imdb_rating = Some(imdb_rating);
         self
     }
@@ -346,7 +381,6 @@ impl<'a> QualityQuery<'a> {
         self
     }
 
-    
     /// Filtering materials by age rating. You can specify a single value or multiple values, separated by commas. The parameter is case-insensitive
     pub fn with_rating_mpaa<'b>(
         &'b mut self,
@@ -356,16 +390,20 @@ impl<'a> QualityQuery<'a> {
         self
     }
 
-
-    
     /// Filter content by the minimum age from which it can be viewed. You can specify either a single value or a range of values
-    pub fn with_minimal_age<'b>(&'b mut self, minimal_age: &'a [&'a str]) -> &'b mut QualityQuery<'a> {
+    pub fn with_minimal_age<'b>(
+        &'b mut self,
+        minimal_age: &'a [&'a str],
+    ) -> &'b mut QualityQuery<'a> {
         self.minimal_age = Some(minimal_age);
         self
     }
 
     /// Filtering materials by anime type. You can specify one value or several values separated by commas (then materials with at least one of these types will be displayed)
-    pub fn with_anime_kind<'b>(&'b mut self, anime_kind: &'a [AnimeKind]) -> &'b mut QualityQuery<'a> {
+    pub fn with_anime_kind<'b>(
+        &'b mut self,
+        anime_kind: &'a [AnimeKind],
+    ) -> &'b mut QualityQuery<'a> {
         self.anime_kind = Some(anime_kind);
         self
     }
@@ -396,7 +434,10 @@ impl<'a> QualityQuery<'a> {
         self
     }
     /// Filter materials by Shikimori status, MyDramaList, or by all statuses. You can specify a single value or several values separated by commas (then materials that have at least one of the listed statuses will be displayed)
-    pub fn with_all_status<'b>(&'b mut self, all_status: &'a [AllStatus]) -> &'b mut QualityQuery<'a> {
+    pub fn with_all_status<'b>(
+        &'b mut self,
+        all_status: &'a [AllStatus],
+    ) -> &'b mut QualityQuery<'a> {
         self.all_status = Some(all_status);
         self
     }

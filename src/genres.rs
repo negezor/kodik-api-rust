@@ -3,7 +3,8 @@ use serde::{Deserialize, Serialize};
 use crate::{
     error::Error,
     types::{
-        AllStatus, AnimeKind, AnimeStatus, DramaStatus, MppaRating, ReleaseType, TranslationType,
+        AllStatus, AnimeKind, AnimeStatus, DramaStatus, MaterialDataField, MppaRating, ReleaseType,
+        TranslationType,
     },
     util::serialize_into_query_parts,
     Client,
@@ -79,6 +80,13 @@ pub struct GenreQuery<'a> {
     /// Filter content by translation type. Allows you to output only voice translation or only subtitles
     #[serde(skip_serializing_if = "Option::is_none")]
     translation_type: Option<&'a [TranslationType]>,
+
+    /// Filtering materials based on the presence of a specific field. Materials that have at least one of the listed fields are shown. In order to show only materials that have all the listed fields
+    #[serde(skip_serializing_if = "Option::is_none")]
+    has_field: Option<&'a [MaterialDataField]>,
+    /// Filtering materials based on the presence of a specific field. Materials that have all the listed fields are shown
+    #[serde(skip_serializing_if = "Option::is_none")]
+    has_field_and: Option<&'a [MaterialDataField]>,
 
     /// Filtering materials by country. You can specify a single value or multiple values, separated by commas (then materials with at least one of the listed countries will be displayed). The parameter is case sensitive
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -182,6 +190,8 @@ impl<'a> GenreQuery<'a> {
             year: None,
             translation_id: None,
             translation_type: None,
+            has_field: None,
+            has_field_and: None,
             countries: None,
             genres: None,
             anime_genres: None,
@@ -244,6 +254,23 @@ impl<'a> GenreQuery<'a> {
         translation_type: &'a [TranslationType],
     ) -> &'b mut GenreQuery<'a> {
         self.translation_type = Some(translation_type);
+        self
+    }
+
+    /// Filtering materials based on the presence of a specific field. Materials that have at least one of the listed fields are shown. In order to show only materials that have all the listed fields
+    pub fn with_has_field<'b>(
+        &'b mut self,
+        has_field: &'a [MaterialDataField],
+    ) -> &'b mut GenreQuery<'a> {
+        self.has_field = Some(has_field);
+        self
+    }
+    /// Filtering materials based on the presence of a specific field. Materials that have all the listed fields are shown
+    pub fn with_has_field_and<'b>(
+        &'b mut self,
+        has_field: &'a [MaterialDataField],
+    ) -> &'b mut GenreQuery<'a> {
+        self.has_field_and = Some(has_field);
         self
     }
 

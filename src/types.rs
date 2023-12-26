@@ -323,6 +323,26 @@ pub enum MppaRating {
     Rx,
 }
 
+/// Represents a release material data field
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub enum MaterialDataField {
+    #[serde(rename = "kinopoisk_id")]
+    /// kinopoisk_id
+    KinopoiskId,
+    #[serde(rename = "imdb_id")]
+    /// imdb_id
+    ImdbId,
+    #[serde(rename = "mdl_id")]
+    /// mdl_id
+    MdlId,
+    #[serde(rename = "worldart_link")]
+    /// worldart_link
+    WorldartLink,
+    #[serde(rename = "shikimori_id")]
+    /// shikimori_id
+    ShikimoriId,
+}
+
 /// Represents various data related to a material, such as title, description, ratings, etc.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MaterialData {

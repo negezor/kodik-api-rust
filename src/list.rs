@@ -5,8 +5,8 @@ use serde::{Deserialize, Serialize};
 use crate::{
     error::Error,
     types::{
-        AllStatus, AnimeKind, AnimeStatus, DramaStatus, MppaRating, Release, ReleaseType,
-        TranslationType,
+        AllStatus, AnimeKind, AnimeStatus, DramaStatus, MaterialDataField, MppaRating, Release,
+        ReleaseType, TranslationType,
     },
     util::serialize_into_query_parts,
     Client,
@@ -81,6 +81,13 @@ pub struct ListQuery<'a> {
     /// Filter content by translation type. Allows you to output only voice translation or only subtitles
     #[serde(skip_serializing_if = "Option::is_none")]
     translation_type: Option<&'a [TranslationType]>,
+
+    /// Filtering materials based on the presence of a specific field. Materials that have at least one of the listed fields are shown. In order to show only materials that have all the listed fields
+    #[serde(skip_serializing_if = "Option::is_none")]
+    has_field: Option<&'a [MaterialDataField]>,
+    /// Filtering materials based on the presence of a specific field. Materials that have all the listed fields are shown
+    #[serde(skip_serializing_if = "Option::is_none")]
+    has_field_and: Option<&'a [MaterialDataField]>,
 
     /// Filtering materials by camrip parameter. If you specify false, only materials with a quality picture will be output. If you don't specify this parameter, all materials will be displayed
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -222,6 +229,8 @@ impl<'a> ListQuery<'a> {
             year: None,
             translation_id: None,
             translation_type: None,
+            has_field: None,
+            has_field_and: None,
             camrip: None,
             lgbt: None,
             with_seasons: None,
@@ -307,6 +316,23 @@ impl<'a> ListQuery<'a> {
         translation_type: &'a [TranslationType],
     ) -> &'b mut ListQuery<'a> {
         self.translation_type = Some(translation_type);
+        self
+    }
+
+    /// Filtering materials based on the presence of a specific field. Materials that have at least one of the listed fields are shown. In order to show only materials that have all the listed fields
+    pub fn with_has_field<'b>(
+        &'b mut self,
+        has_field: &'a [MaterialDataField],
+    ) -> &'b mut ListQuery<'a> {
+        self.has_field = Some(has_field);
+        self
+    }
+    /// Filtering materials based on the presence of a specific field. Materials that have all the listed fields are shown
+    pub fn with_has_field_and<'b>(
+        &'b mut self,
+        has_field: &'a [MaterialDataField],
+    ) -> &'b mut ListQuery<'a> {
+        self.has_field_and = Some(has_field);
         self
     }
 

@@ -3,8 +3,8 @@ use serde::{Deserialize, Serialize};
 use crate::{
     error::Error,
     types::{
-        AllStatus, AnimeKind, AnimeStatus, DramaStatus, MppaRating, Release, ReleaseType,
-        TranslationType,
+        AllStatus, AnimeKind, AnimeStatus, DramaStatus, MaterialDataField, MppaRating, Release,
+        ReleaseType, TranslationType,
     },
     util::serialize_into_query_parts,
     Client,
@@ -101,6 +101,13 @@ pub struct SearchQuery<'a> {
     /// Increases the priority of a certain type of translation. If you specify voice, voiceovers will be output first. If subtitles, subtitles will be output
     #[serde(skip_serializing_if = "Option::is_none")]
     prioritize_translation_type: Option<&'a [TranslationType]>,
+
+    /// Filtering materials based on the presence of a specific field. Materials that have at least one of the listed fields are shown. In order to show only materials that have all the listed fields
+    #[serde(skip_serializing_if = "Option::is_none")]
+    has_field: Option<&'a [MaterialDataField]>,
+    /// Filtering materials based on the presence of a specific field. Materials that have all the listed fields are shown
+    #[serde(skip_serializing_if = "Option::is_none")]
+    has_field_and: Option<&'a [MaterialDataField]>,
 
     /// Deletes certain voices from the search results. IDs are listed separated by commas
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -264,6 +271,8 @@ impl<'a> SearchQuery<'a> {
             prioritize_translations: None,
             unprioritize_translations: None,
             prioritize_translation_type: None,
+            has_field: None,
+            has_field_and: None,
             block_translations: None,
             camrip: None,
             lgbt: None,
@@ -415,6 +424,24 @@ impl<'a> SearchQuery<'a> {
         self.translation_type = Some(translation_type);
         self
     }
+
+    /// Filtering materials based on the presence of a specific field. Materials that have at least one of the listed fields are shown. In order to show only materials that have all the listed fields
+    pub fn with_has_field<'b>(
+        &'b mut self,
+        has_field: &'a [MaterialDataField],
+    ) -> &'b mut SearchQuery<'a> {
+        self.has_field = Some(has_field);
+        self
+    }
+    /// Filtering materials based on the presence of a specific field. Materials that have all the listed fields are shown
+    pub fn with_has_field_and<'b>(
+        &'b mut self,
+        has_field: &'a [MaterialDataField],
+    ) -> &'b mut SearchQuery<'a> {
+        self.has_field_and = Some(has_field);
+        self
+    }
+
     /// Increases the priority of certain voices. The IDs are listed in commas. The "leftmost" ID, the higher its priority. IDs of all voices can be received through API resource /translations or on the page of list of voices. Standard priority of dubbed and prof. Multivoiced". To deactivate standard priority you need to pass value 0. You can also specify the translation type (subtitles/voice) instead of the ID
     // TODO: Add wrapper
     pub fn with_prioritize_translations<'b>(
