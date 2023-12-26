@@ -76,7 +76,7 @@ pub struct SearchQuery<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     limit: Option<u32>,
 
-    /// Maximum number of outputs
+    /// Filtering materials by their type. For your convenience, a large number of types of films and TV series are available. Required types are specified separated by commas
     #[serde(skip_serializing_if = "Option::is_none")]
     types: Option<&'a [ReleaseType]>,
 
@@ -387,14 +387,13 @@ impl<'a> SearchQuery<'a> {
         self
     }
 
-    /// Maximum number of outputs
+    /// Filtering materials by their type. For your convenience, a large number of types of films and TV series are available. Required types are specified separated by commas
     pub fn with_types<'b>(&'b mut self, types: &'a [ReleaseType]) -> &'b mut SearchQuery<'a> {
         self.types = Some(types);
         self
     }
 
     ///Filter materials by year If you set this parameter, only materials of the corresponding year will be displayed
-
     pub fn with_year<'b>(&'b mut self, year: &'a [u32]) -> &'b mut SearchQuery<'a> {
         self.year = Some(year);
         self
