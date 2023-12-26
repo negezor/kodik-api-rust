@@ -8,6 +8,7 @@ use crate::{
         AllStatus, AnimeKind, AnimeStatus, DramaStatus, MppaRating, Release, ReleaseType,
         TranslationType,
     },
+    util::serialize_into_query_parts,
     Client,
 };
 
@@ -565,17 +566,17 @@ impl<'a> ListQuery<'a> {
     /// Stream the query
     pub fn stream(&self, client: &Client) -> impl Stream<Item = Result<ListResponse, Error>> {
         let client = client.clone();
-        let body = comma_serde_urlencoded::to_string(self).map_err(Error::UrlencodedSerializeError);
+        let payload = serialize_into_query_parts(self);
 
         try_fn_stream(|emitter| async move {
             let mut next_page: Option<String> = None;
-            let body = body?;
+            let payload = payload?;
 
             loop {
                 let request_builder = if let Some(url) = &next_page {
                     client.init_post_request(url)
                 } else {
-                    client.init_post_request("/list").body(body.clone())
+                    client.init_post_request("/list").query(&payload)
                 };
 
                 let response = request_builder.send().await.map_err(Error::HttpError)?;

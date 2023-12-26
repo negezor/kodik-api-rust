@@ -2,7 +2,7 @@ use std::marker::PhantomData;
 
 use serde::{Deserialize, Serialize};
 
-use crate::{error::Error, Client};
+use crate::{error::Error, util::serialize_into_query_parts, Client};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct QualityResult {
@@ -36,12 +36,11 @@ impl<'a> QualityQuery<'a> {
 
     /// Execute the query and fetch the results.
     pub async fn execute<'b>(&'a self, client: &'b Client) -> Result<Vec<QualityResult>, Error> {
-        let body =
-            comma_serde_urlencoded::to_string(self).map_err(Error::UrlencodedSerializeError)?;
+        let payload = serialize_into_query_parts(self)?;
 
         let response = client
             .init_post_request("/qualities")
-            .body(body)
+            .query(&payload)
             .send()
             .await
             .map_err(Error::HttpError)?;

@@ -5,6 +5,7 @@ use crate::{
     types::{
         AllStatus, AnimeKind, AnimeStatus, DramaStatus, MppaRating, ReleaseType, TranslationType,
     },
+    util::serialize_into_query_parts,
     Client,
 };
 
@@ -439,12 +440,11 @@ impl<'a> GenreQuery<'a> {
 
     /// Execute the query and fetch the results.
     pub async fn execute<'b>(&'a self, client: &'b Client) -> Result<GenreResponse, Error> {
-        let body =
-            comma_serde_urlencoded::to_string(self).map_err(Error::UrlencodedSerializeError)?;
+        let payload = serialize_into_query_parts(self)?;
 
         let response = client
             .init_post_request("/genres")
-            .body(body)
+            .query(&payload)
             .send()
             .await
             .map_err(Error::HttpError)?;
