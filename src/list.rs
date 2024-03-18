@@ -614,7 +614,7 @@ impl<'a> ListQuery<'a> {
 
                 match result {
                     ListResponseUnion::Result(result) => {
-                        next_page = result.next_page.clone();
+                        next_page.clone_from(&result.next_page);
 
                         emitter.emit(result).await;
                     }
