@@ -14,7 +14,7 @@
 Install [kodik from crates.io](https://crates.io/crates/kodik-api). Add the following line to your `Cargo.toml` file's dependencies section:
 
 ```toml
-kodik-api = "0.1"
+kodik-api = "0.2"
 ```
 
 Or you can add with cargo
