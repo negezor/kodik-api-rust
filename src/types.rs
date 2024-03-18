@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 
 /// Represents a release type on Kodik
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -157,10 +157,10 @@ pub struct Release {
     pub updated_at: String,
 
     /// If the series is blocked entirely, this field contains the string `"all"`. If individual seasons are blocked, the field is an object containing season numbers, and for each season: either `"all"` (if all episodes are blocked) or an array of episode numbers `["1", "2", "3"]` (if individual episodes are blocked). If nothing is blocked, the field is an empty object. This field is present only in materials with the series type.
-    pub blocked_seasons: Option<HashMap<String, BlockedSeason>>,
+    pub blocked_seasons: Option<BTreeMap<String, BlockedSeason>>,
 
     /// Object with seasons and episodes in them. This field is present only if the parameters `with_seasons` or `with_episodes`, `with_episodes_data` were specified in the request.
-    pub seasons: Option<HashMap<String, Season>>,
+    pub seasons: Option<BTreeMap<String, Season>>,
 
     /// Number of the last season of the series. This field is present only in materials with the series type.
     pub last_season: Option<i32>,
@@ -196,7 +196,7 @@ pub struct Season {
 
     pub link: String,
 
-    pub episodes: HashMap<String, EpisodeUnion>,
+    pub episodes: BTreeMap<String, EpisodeUnion>,
 }
 
 /// Represents a release episode on Kodik

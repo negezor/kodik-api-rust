@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 
 use serde::{Deserialize, Serialize};
 
@@ -24,20 +24,20 @@ pub struct UnifiedSeason {
 
     pub link: String,
 
-    pub episodes: HashMap<String, UnifiedEpisode>,
+    pub episodes: BTreeMap<String, UnifiedEpisode>,
 }
 
 /// Returns seasons and episodes in a unified format for the Kodik release.
 ///
 /// Kodik returns different response formats for movies, shows, depending on the parameters and the state of the sun.
-pub fn unify_seasons(release: &Release) -> HashMap<String, UnifiedSeason> {
+pub fn unify_seasons(release: &Release) -> BTreeMap<String, UnifiedSeason> {
     let Some(kodik_seasons) = &release.seasons else {
-        return HashMap::from([(
+        return BTreeMap::from([(
             "1".to_owned(),
             UnifiedSeason {
                 title: None,
                 link: release.link.clone(),
-                episodes: HashMap::from([(
+                episodes: BTreeMap::from([(
                     "1".to_owned(),
                     UnifiedEpisode {
                         title: None,
@@ -49,10 +49,10 @@ pub fn unify_seasons(release: &Release) -> HashMap<String, UnifiedSeason> {
         )]);
     };
 
-    let mut seasons = HashMap::new();
+    let mut seasons = BTreeMap::new();
 
     for (season_num, kodik_season) in kodik_seasons {
-        let mut episodes = HashMap::new();
+        let mut episodes = BTreeMap::new();
 
         for (episode_num, kodik_episode_union) in &kodik_season.episodes {
             let episode = match kodik_episode_union {
@@ -118,7 +118,7 @@ mod tests {
             },
             created_at: "2022-09-14T10:54:34Z".to_owned(),
             updated_at: "2022-09-23T22:31:33Z".to_owned(),
-            blocked_seasons: Some(HashMap::new()),
+            blocked_seasons: Some(BTreeMap::new()),
             seasons: None,
             last_season: Some(1),
             last_episode: Some(10),
@@ -137,12 +137,12 @@ mod tests {
 
         assert_eq!(
             unified_season,
-            HashMap::from([(
+            BTreeMap::from([(
                 "1".to_owned(),
                 UnifiedSeason {
                     title: None,
                     link: kodik_release.link.clone(),
-                    episodes: HashMap::from([(
+                    episodes: BTreeMap::from([(
                         "1".to_owned(),
                         UnifiedEpisode {
                             title: None,
@@ -159,12 +159,12 @@ mod tests {
     fn test_unify_kodik_with_seasons() {
         let mut kodik_release = get_default_kodik_release();
 
-        let seasons = HashMap::from([(
+        let seasons = BTreeMap::from([(
             "1".to_owned(),
             Season {
                 link: kodik_release.link.clone(),
                 title: None,
-                episodes: HashMap::from([
+                episodes: BTreeMap::from([
                     (
                         "1".to_owned(),
                         EpisodeUnion::Link(
@@ -197,11 +197,11 @@ mod tests {
 
         let unified_season = unify_seasons(&kodik_release);
 
-        assert_eq!(unified_season, HashMap::from([
+        assert_eq!(unified_season, BTreeMap::from([
             ("1".to_owned(), UnifiedSeason {
                 title: None,
                 link: kodik_release.link.clone(),
-                episodes: HashMap::from([
+                episodes: BTreeMap::from([
                     ("1".to_owned(), UnifiedEpisode {
                         title: None,
                         link: "//kodik.info/serial/45534/d8619e900d122ea8eff8b55891b09bac/720p/1".to_owned(),
