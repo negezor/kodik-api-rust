@@ -16,7 +16,7 @@ native-tls = ["reqwest/native-tls"]
 rustls-tls = ["reqwest/rustls-tls"]
 
 [dependencies]
-reqwest = { version = "0.11", default-features = false, features = ["json"] }
+reqwest = { version = "0.12", default-features = false, features = ["json"] }
 serde = { version = "1.0", features = ["derive"] }
 comma_serde_urlencoded = { version = "0.8" }
 thiserror = { version = "1.0" }
@@ -26,7 +26,7 @@ futures = { version = "0.3", default-features = false, features = ["std"] }
 async-fn-stream = { version = "0.2" }
 
 [dev-dependencies]
-tokio = { version = "1.36", features = [
+tokio = { version = "1.37", features = [
     "macros",
     "rt-multi-thread"
 ] }
