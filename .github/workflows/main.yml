@@ -88,4 +88,4 @@ jobs:
       - name: Install rust
         uses: dtolnay/rust-toolchain@stable
       - name: Run cargo publish
-        run: cargo publish --token "Bearer ${{ secrets.CRATES_IO_TOKEN }}"
+        run: cargo publish --token ${{ secrets.CRATES_IO_TOKEN }}
