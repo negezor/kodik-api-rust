@@ -1,4 +1,4 @@
-use async_fn_stream::try_fn_stream;
+use async_fn_stream::fn_stream;
 use futures_util::{pin_mut, Stream, StreamExt};
 use serde::{Deserialize, Serialize};
 
@@ -594,9 +594,16 @@ impl<'a> ListQuery<'a> {
         let client = client.clone();
         let payload = serialize_into_query_parts(self);
 
-        try_fn_stream(|emitter| async move {
+        fn_stream(|emitter| async move {
             let mut next_page: Option<String> = None;
-            let payload = payload?;
+            let payload = match payload {
+                Ok(payload) => payload,
+                Err(error) => {
+                    emitter.emit(Err(error)).await;
+
+                    return;
+                }
+            };
 
             loop {
                 let request_builder = if let Some(url) = &next_page {
@@ -605,28 +612,44 @@ impl<'a> ListQuery<'a> {
                     client.init_post_request("/list").query(&payload)
                 };
 
-                let response = request_builder.send().await.map_err(Error::HttpError)?;
+                let response = request_builder.send().await.map_err(Error::HttpError);
 
-                let result = response
-                    .json::<ListResponseUnion>()
-                    .await
-                    .map_err(Error::HttpError)?;
+                let result = match response {
+                    Ok(response) => {
+                        response
+                            .json::<ListResponseUnion>()
+                            .await
+                            .map_err(Error::HttpError)
+                    },
+                    Err(error) => {
+                        emitter.emit(Err(error)).await;
+
+                        continue;
+                    }
+                };
 
                 match result {
-                    ListResponseUnion::Result(result) => {
+                    Ok(ListResponseUnion::Result(result)) => {
                         next_page.clone_from(&result.next_page);
 
-                        emitter.emit(result).await;
+                        emitter.emit(Ok(result)).await;
                     }
-                    ListResponseUnion::Error { error } => Err(Error::KodikError(error))?,
+                    Ok(ListResponseUnion::Error { error }) => {
+                        emitter.emit(Err(Error::KodikError(error))).await;
+
+                        continue;
+                    },
+                    Err(err) => {
+                        emitter.emit(Err(err)).await;
+
+                        continue;
+                    }
                 };
 
                 if next_page.is_none() {
                     break;
                 }
             }
-
-            Ok(())
         })
     }
 }
