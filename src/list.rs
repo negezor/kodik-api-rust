@@ -1,5 +1,5 @@
 use async_fn_stream::try_fn_stream;
-use futures::{pin_mut, Stream, StreamExt};
+use futures_util::{pin_mut, Stream, StreamExt};
 use serde::{Deserialize, Serialize};
 
 use crate::{
