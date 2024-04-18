@@ -23,7 +23,7 @@ comma_serde_urlencoded = { version = "0.8" }
 thiserror = { version = "1.0" }
 url = { version = "2.5" }
 serde_json = { version = "1.0" }
-futures = { version = "0.3", default-features = false, features = ["std"] }
+futures-util = { version = "0.3", default-features = false, features = ["std"] }
 async-fn-stream = { version = "0.2" }
 
 [dev-dependencies]

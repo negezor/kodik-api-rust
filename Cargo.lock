@@ -425,7 +425,7 @@ version = "0.3.2"
 dependencies = [
  "async-fn-stream",
  "comma_serde_urlencoded",
- "futures",
+ "futures-util",
  "reqwest",
  "serde",
  "serde_json",
