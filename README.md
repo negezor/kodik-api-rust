@@ -112,7 +112,7 @@ async fn main() {
 ## Usage streams
 
 ```rs
-use futures::{pin_mut, StreamExt};
+use futures_util::{pin_mut, StreamExt};
 
 use kodik_api::Client;
 use kodik_api::list::ListQuery;
