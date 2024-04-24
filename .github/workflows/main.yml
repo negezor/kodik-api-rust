@@ -76,16 +76,16 @@ jobs:
         run: |
           cargo install --force cargo-audit
           cargo audit
-  publish_on_crates_io:
-    name: Publish on crates.io
-    runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags') # Only on tags
-    needs:
-      - test
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Install rust
-        uses: dtolnay/rust-toolchain@stable
-      - name: Run cargo publish
-        run: cargo publish --token ${{ secrets.CRATES_IO_TOKEN }}
+  # publish_on_crates_io:
+  #   name: Publish on crates.io
+  #   runs-on: ubuntu-latest
+  #   if: startsWith(github.ref, 'refs/tags') # Only on tags
+  #   needs:
+  #     - test
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+  #     - name: Install rust
+  #       uses: dtolnay/rust-toolchain@stable
+  #     - name: Run cargo publish
+  #       run: cargo publish --token ${{ secrets.CRATES_IO_TOKEN }}
