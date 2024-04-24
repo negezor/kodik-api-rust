@@ -1,6 +1,6 @@
 [package]
 name = "kodik-api"
-version = "0.3.2"
+version = "0.3.3"
 edition = "2021"
 description = "An unofficial async Rust library that allows you to interact with the Kodik API"
 authors = ["Negezor <negezor@gmail.com>"]
