@@ -1,4 +1,4 @@
-use async_fn_stream::fn_stream;
+use async_fn_stream::try_fn_stream;
 use futures_util::{pin_mut, Stream, StreamExt};
 use serde::{Deserialize, Serialize};
 
@@ -594,16 +594,9 @@ impl<'a> ListQuery<'a> {
         let client = client.clone();
         let payload = serialize_into_query_parts(self);
 
-        fn_stream(|emitter| async move {
+        try_fn_stream(|emitter| async move {
             let mut next_page: Option<String> = None;
-            let payload = match payload {
-                Ok(payload) => payload,
-                Err(error) => {
-                    emitter.emit(Err(error)).await;
-
-                    return;
-                }
-            };
+            let payload = payload?;
 
             loop {
                 let request_builder = if let Some(url) = &next_page {
@@ -615,14 +608,12 @@ impl<'a> ListQuery<'a> {
                 let response = request_builder.send().await.map_err(Error::HttpError);
 
                 let result = match response {
-                    Ok(response) => {
-                        response
-                            .json::<ListResponseUnion>()
-                            .await
-                            .map_err(Error::HttpError)
-                    },
+                    Ok(response) => response
+                        .json::<ListResponseUnion>()
+                        .await
+                        .map_err(Error::HttpError),
                     Err(error) => {
-                        emitter.emit(Err(error)).await;
+                        emitter.emit_err(error).await;
 
                         continue;
                     }
@@ -632,15 +623,15 @@ impl<'a> ListQuery<'a> {
                     Ok(ListResponseUnion::Result(result)) => {
                         next_page.clone_from(&result.next_page);
 
-                        emitter.emit(Ok(result)).await;
+                        emitter.emit(result).await;
                     }
                     Ok(ListResponseUnion::Error { error }) => {
-                        emitter.emit(Err(Error::KodikError(error))).await;
+                        emitter.emit_err(Error::KodikError(error)).await;
 
                         continue;
-                    },
+                    }
                     Err(err) => {
-                        emitter.emit(Err(err)).await;
+                        emitter.emit_err(err).await;
 
                         continue;
                     }
@@ -650,6 +641,8 @@ impl<'a> ListQuery<'a> {
                     break;
                 }
             }
+
+            Ok(())
         })
     }
 }
