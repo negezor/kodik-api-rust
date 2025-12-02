@@ -211,7 +211,6 @@ impl<'a> YearQuery<'a> {
     }
 
     ///Filter materials by year If you set this parameter, only materials of the corresponding year will be displayed
-
     pub fn with_year<'b>(&'b mut self, year: &'a [u32]) -> &'b mut YearQuery<'a> {
         self.year = Some(year);
         self
