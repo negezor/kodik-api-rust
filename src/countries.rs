@@ -1,13 +1,13 @@
 use serde::{Deserialize, Serialize};
 
 use crate::{
+    Client,
     error::Error,
     types::{
         AllStatus, AnimeKind, AnimeStatus, DramaStatus, MaterialDataField, MppaRating, ReleaseType,
         TranslationType,
     },
     util::serialize_into_query_parts,
-    Client,
 };
 
 #[derive(Serialize, Deserialize, Debug, Clone)]

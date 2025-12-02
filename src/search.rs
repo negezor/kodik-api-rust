@@ -1,13 +1,13 @@
 use serde::{Deserialize, Serialize};
 
 use crate::{
+    Client,
     error::Error,
     types::{
         AllStatus, AnimeKind, AnimeStatus, DramaStatus, MaterialDataField, MppaRating, Release,
         ReleaseType, TranslationType,
     },
     util::serialize_into_query_parts,
-    Client,
 };
 
 /// A struct containing search results and other information about the search

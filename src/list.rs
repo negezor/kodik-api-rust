@@ -1,15 +1,15 @@
 use async_fn_stream::try_fn_stream;
-use futures_util::{pin_mut, Stream, StreamExt};
+use futures_util::{Stream, StreamExt, pin_mut};
 use serde::{Deserialize, Serialize};
 
 use crate::{
+    Client,
     error::Error,
     types::{
         AllStatus, AnimeKind, AnimeStatus, DramaStatus, MaterialDataField, MppaRating, Release,
         ReleaseType, TranslationType,
     },
     util::serialize_into_query_parts,
-    Client,
 };
 
 /// A struct containing releases results and other information about the releases
