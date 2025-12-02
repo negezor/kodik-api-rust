@@ -1,7 +1,7 @@
 [package]
 name = "kodik-api"
 version = "0.3.4"
-edition = "2021"
+edition = "2024"
 description = "An unofficial async Rust library that allows you to interact with the Kodik API"
 authors = ["Negezor <negezor@gmail.com>"]
 license = "MIT"
@@ -9,7 +9,7 @@ readme = "README.md"
 repository = "https://github.com/negezor/kodik-api-rust"
 keywords = ["kodik", "api", "sdk", "wrapper", "async"]
 categories = ["api-bindings"]
-rust-version = "1.72"
+rust-version = "1.85"
 
 [features]
 default = ["rustls-tls"]

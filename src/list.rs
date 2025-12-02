@@ -590,7 +590,10 @@ impl<'a> ListQuery<'a> {
     }
 
     /// Stream the query
-    pub fn stream(&self, client: &Client) -> impl Stream<Item = Result<ListResponse, Error>> {
+    pub fn stream(
+        &self,
+        client: &Client,
+    ) -> impl Stream<Item = Result<ListResponse, Error>> + use<> {
         let client = client.clone();
         let payload = serialize_into_query_parts(self);
 
