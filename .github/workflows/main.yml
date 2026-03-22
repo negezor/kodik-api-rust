@@ -41,7 +41,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
@@ -84,7 +84,7 @@ jobs:
   #     - test
   #   steps:
   #     - name: Checkout code
-  #       uses: actions/checkout@v4
+  #       uses: actions/checkout@v6
   #     - name: Install rust
   #       uses: dtolnay/rust-toolchain@stable
   #     - name: Run cargo publish
