@@ -14,7 +14,7 @@ impl ClientBuilder {
     pub fn new() -> ClientBuilder {
         ClientBuilder {
             api_key: None,
-            api_url: "https://kodikapi.com".to_owned(),
+            api_url: "https://kodik-api.com".to_owned(),
             reqwest_client_builder: ReqwestClientBuilder::new(),
         }
     }
