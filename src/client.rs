@@ -129,4 +129,17 @@ impl Client {
             self.http_client.post(path_or_url.to_owned())
         }
     }
+
+    pub(crate) fn init_get_request(
+        &self,
+        path_or_url: &str,
+    ) -> RequestBuilder {
+        if !path_or_url.starts_with("http") {
+            self.http_client
+                .get(self.api_url.clone() + path_or_url)
+                .query(&[("token", &self.api_key)])
+        } else {
+            self.http_client.get(path_or_url.to_owned())
+        }
+    }
 }

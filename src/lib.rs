@@ -204,6 +204,9 @@ pub mod genres;
 /// Module representing the [list qualities] structures.
 pub mod qualities;
 
+/// Module representing the get player structures.
+pub mod player;
+
 /// Module representing the [types] structures.
 pub mod types;
 
