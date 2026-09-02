@@ -130,10 +130,7 @@ impl Client {
         }
     }
 
-    pub(crate) fn init_get_request(
-        &self,
-        path_or_url: &str,
-    ) -> RequestBuilder {
+    pub(crate) fn init_get_request(&self, path_or_url: &str) -> RequestBuilder {
         if !path_or_url.starts_with("http") {
             self.http_client
                 .get(self.api_url.clone() + path_or_url)
