@@ -27,7 +27,7 @@ futures-util = { version = "0.3", default-features = false, features = ["std"] }
 async-fn-stream = { version = "0.3" }
 
 [dev-dependencies]
-tokio = { version = "1.50", features = [
+tokio = { version = "1.53", features = [
     "macros",
     "rt-multi-thread"
 ] }
