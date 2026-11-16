@@ -51,6 +51,7 @@ impl ClientBuilder {
 
     /// ```
     /// use kodik_api::ClientBuilder;
+    /// use std::time::Duration;
     ///
     /// ClientBuilder::new()
     ///   .timeout(Duration::from_secs(30));
