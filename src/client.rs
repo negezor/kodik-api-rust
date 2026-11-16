@@ -2,6 +2,8 @@ use reqwest::{
     Client as ReqwestClient, ClientBuilder as ReqwestClientBuilder, Proxy, RequestBuilder,
 };
 
+use std::time::Duration;
+
 #[derive(Debug)]
 pub struct ClientBuilder {
     api_key: Option<String>,
@@ -44,6 +46,17 @@ impl ClientBuilder {
     /// ```
     pub fn api_url(mut self, api_url: impl Into<String>) -> ClientBuilder {
         self.api_url = api_url.into();
+        self
+    }
+
+    /// ```
+    /// use kodik_api::ClientBuilder;
+    ///
+    /// ClientBuilder::new()
+    ///   .timeout(Duration::from_secs(30));
+    /// ```
+    pub fn timeout(mut self, timeout: Duration) -> ClientBuilder {
+        self.reqwest_client_builder = self.reqwest_client_builder.timeout(timeout);
         self
     }
 
